@@ -24,6 +24,11 @@ Vagrant.configure(2) do |config|
   end
 
   $user_script = <<-SCRIPT
+  sudo apt-get install unzip
+  sudo wget https://services.gradle.org/distributions/gradle-4.3.1-bin.zip
+  sudo mkdir /opt/gradle
+  sudo unzip -d /opt/gradle gradle-4.3.1-bin.zip
+  sudo rm gradle-4.3.1-bin.zip
   SCRIPT
 
   config.vm.provision "shell", inline: $user_script, privileged: false
