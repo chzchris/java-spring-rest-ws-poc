@@ -1,0 +1,2 @@
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games::/usr/lib/jvm/jdk1.8.0_151/bin::/usr/lib/jvm/jdk1.8.0_151/db/bin:/usr/lib/jvm/jdk1.8.0_151/jre/bin:/opt/gradle/gradle-4.3.1/bin"
+JAVA_HOME="/usr/lib/jvm/jdk1.8.0_151"

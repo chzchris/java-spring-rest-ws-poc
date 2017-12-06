@@ -24,11 +24,22 @@ Vagrant.configure(2) do |config|
   end
 
   $user_script = <<-SCRIPT
+  cd /vagrant
   sudo apt-get install unzip
   sudo wget https://services.gradle.org/distributions/gradle-4.3.1-bin.zip
   sudo mkdir /opt/gradle
   sudo unzip -d /opt/gradle gradle-4.3.1-bin.zip
+
+  wget --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-x64.tar.gz
+  sudo mkdir /usr/lib/jvm
+  cd /usr/lib/jvm
+  sudo tar -xvzf /vagrant/jdk-8u151-linux-x64.tar.gz
+
+  cd /vagrant
   sudo rm gradle-4.3.1-bin.zip
+  sudo rm jdk-8u151-linux-x64.tar.gz
+  sudo cp environment /etc/environment
+  source /etc/environment
   SCRIPT
 
   config.vm.provision "shell", inline: $user_script, privileged: false
