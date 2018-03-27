@@ -4,6 +4,7 @@
 Vagrant.configure(2) do |config|
   config.ssh.forward_agent = true
   config.vm.network "forwarded_port", guest: 8085, host: 8085
+  config.vm.network "forwarded_port", guest: 8080, host: 8888
 
   config.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
