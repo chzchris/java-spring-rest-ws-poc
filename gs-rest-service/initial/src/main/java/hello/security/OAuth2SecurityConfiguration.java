@@ -28,16 +28,16 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	  @Autowired
     public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-        .withUser("bill").password("abc123").roles("ADMIN").and()
-        .withUser("bob").password("abc123").roles("USER");
+      auth.inMemoryAuthentication()
+      .withUser("bill").password("abc123").roles("ADMIN").and()
+      .withUser("bob").password("abc123").roles("USER");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-		http
-		.csrf().disable()
-		.anonymous().disable()
+		  http
+		  .csrf().disable()
+		  .anonymous().disable()
 	  	.authorizeRequests()
 	  	.antMatchers("/oauth/token").permitAll();
     }
@@ -45,12 +45,12 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+      return super.authenticationManagerBean();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+      return new BCryptPasswordEncoder();
     }
 
     @Bean
