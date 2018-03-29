@@ -1,5 +1,7 @@
 package hello.security;
 
+import hello.service.UserDetailsServiceImp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +20,7 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -26,11 +29,21 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	  @Autowired
 	  private ClientDetailsService clientDetailsService;
 	
-	  @Autowired
-    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-      auth.inMemoryAuthentication()
-      .withUser("bill").password("abc123").roles("ADMIN").and()
-      .withUser("bob").password("abc123").roles("USER");
+    // @Autowired
+    // public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+    //   auth.inMemoryAuthentication()
+    //   .withUser("bill").password("abc123").roles("ADMIN").and()
+    //   .withUser("bob").password("abc123").roles("USER");
+    // }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+      auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+      return new UserDetailsServiceImp();
     }
 
     @Override
@@ -49,7 +62,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
       return new BCryptPasswordEncoder();
     }
 
