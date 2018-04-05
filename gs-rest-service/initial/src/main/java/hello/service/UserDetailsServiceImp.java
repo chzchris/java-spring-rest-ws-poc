@@ -2,6 +2,8 @@ package hello.service;
 
 import java.util.Map;
 import java.util.HashMap;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,17 +11,21 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserDetailsServiceImp implements UserDetailsService {
+
+  @Autowired
+  private BCryptPasswordEncoder bcryptPasswordEncoder;
+
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
     /*Here we are using dummy data, you need to load user data from
      database or other third party application*/
-    Map user = findUserbyUername(username);
+    Map<String, Object> user = findUserbyUername(username);
 
     UserBuilder builder = null;
     if (user != null) {
       builder = org.springframework.security.core.userdetails.User.withUsername(username);
-      builder.password(new BCryptPasswordEncoder().encode((String)user.get("password")));
+      builder.password(bcryptPasswordEncoder.encode((String)user.get("password")));
       builder.roles((String[])user.get("role"));
     } else {
       throw new UsernameNotFoundException("User not found.");
